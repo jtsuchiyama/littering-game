@@ -34,16 +34,16 @@ public class PlayerMovement : MonoBehaviour
 		// Check if the player is grounded
 		GroundedCheck();
 
-		// Move player
-		Move();
-    }
-
-	// Move the player
-	private void Move() {
 		// Get the keyboard inputs for directions
 		float horizontalDirection = Input.GetAxis("Horizontal");
 		float verticalDirection = Input.GetAxis("Vertical");
 
+		// Move player
+		Move(horizontalDirection, verticalDirection);
+    }
+
+	// Move the player
+	private void Move(float horizontalDirection, float verticalDirection) {
 		// Mid-air horizontal control multiplier
 		float mid_air_multiplier = 1;
 		if (!_isGrounded)
