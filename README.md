@@ -1,5 +1,5 @@
 # littering-game
-An Unity game built with @GreenEggsnHam123 and @dtruong2023 for COEN 174: Software Engineering. The game is 2D platformer that implicitly forces players to reflect on how their daily lives affect littering as they platform.
+An Unity game built with @jtsuchiyama, @GreenEggsnHam123 and @dtruong2023 for COEN 174: Software Engineering. The game is 2D platformer that implicitly forces players to reflect on how their daily lives affect littering as they platform.
 
 # Build Instructions
 1. Copy this repository to your local machine
