@@ -63,13 +63,13 @@ public class PlayerMovement : MonoBehaviour
 			
 
 		// If the input is moving the player right and the player is facing left, then correct the character orientation
-		if (horizontalDirection < 0 && !_isFacingRight)
+		if (horizontalDirection > 0 && !_isFacingRight)
 		{
 			Flip();
 		}
 
 		// Otherwise if the input is moving the player left and the player is facing right, then correct the character orientation
-		else if (horizontalDirection > 0 && _isFacingRight)
+		else if (horizontalDirection < 0 && _isFacingRight)
 		{
 			Flip();
 		}
