@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.String;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,8 +19,12 @@ public class DialogueManager : MonoBehaviour
 	// Boolean to check if in dialogue or not
 	private bool _inDialogue;
 
+	// Player data reference for variable insertion
+	public PlayerData PlayerData;
+
 	// Public reference for dialogue
 	public Dialogue startDialogue;
+
     private void Start()
     {
 		// Clear all dialogues
@@ -29,7 +34,8 @@ public class DialogueManager : MonoBehaviour
 		_sentences = new Queue<string>();
 
 		// Run dialogue immediately at scene start
-		StartDialogue(startDialogue);
+		if(startDialogue)
+			StartDialogue(startDialogue);
     }
 
 
@@ -70,7 +76,11 @@ public class DialogueManager : MonoBehaviour
 
 		string sentence = _sentences.Dequeue();
 		StopAllCoroutines();
-		StartCoroutine(TypeSentence(sentence));
+		
+		// Replace keywords with variables from PlayerData as needed
+		string updated_string = Format(sentence, PlayerData.coin_counter, PlayerData.total_coins);
+
+		StartCoroutine(TypeSentence(updated_string));
 	}
 
 	// Coroutine for typing a string in the dialogue box

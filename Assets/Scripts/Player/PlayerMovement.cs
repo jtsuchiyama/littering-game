@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
 	private float horizontal_control_multiplier = 0.5f;
 	private float vertical_multiplier = 400f;
 
+	// Boolean to check if the player is allowed to move
+	public bool CanPlayerMove;
+
     private void Start()
     {
 		_rb = GetComponent<Rigidbody2D>();
@@ -31,15 +34,17 @@ public class PlayerMovement : MonoBehaviour
     // Handle all movement in FixedUpdate
     private void FixedUpdate()
     {
-		// Check if the player is grounded
-		GroundedCheck();
+		if (CanPlayerMove) {
+			// Check if the player is grounded
+			GroundedCheck();
 
-		// Get the keyboard inputs for directions
-		float horizontalDirection = Input.GetAxis("Horizontal");
-		float verticalDirection = Input.GetAxis("Vertical");
+			// Get the keyboard inputs for directions
+			float horizontalDirection = Input.GetAxis("Horizontal");
+			float verticalDirection = Input.GetAxis("Vertical");
 
-		// Move player
-		Move(horizontalDirection, verticalDirection);
+			// Move player
+			Move(horizontalDirection, verticalDirection);
+		}
     }
 
 	// Move the player
