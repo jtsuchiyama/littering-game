@@ -12,12 +12,18 @@ public class DialogueManager : MonoBehaviour
 	public Text speakerText;
 	public Text dialogueText;
 
+	// Typing delay for text box
+	private float _typingDelay = 0.02f;
+
+	// Boolean to check if in dialogue or not
+	private bool _inDialogue;
+
 	// Public reference for dialogue
 	public Dialogue startDialogue;
     private void Start()
     {
-		// Hide dialogue box
-		SetVisibility(false);
+		// Clear all dialogues
+		EndDialogue();
 
 		// Instantiate the queue
 		_sentences = new Queue<string>();
@@ -26,9 +32,19 @@ public class DialogueManager : MonoBehaviour
 		StartDialogue(startDialogue);
     }
 
+
+	// Check to continue dialogue
+	private void Update() {
+		if (_inDialogue && Input.GetKeyDown(KeyCode.Space)) {
+			DisplayNextSentence();
+		}
+	}
+
 	// Loads the dialogue into the queue and starts the dialogue
 	public void StartDialogue(Dialogue dialogue)
 	{
+		_inDialogue = true;
+
 		SetVisibility(true);
 
 		speakerText.text = dialogue.speaker;
@@ -64,7 +80,7 @@ public class DialogueManager : MonoBehaviour
 		foreach (char letter in sentence.ToCharArray())
 		{
 			dialogueText.text += letter;
-			yield return null;
+			yield return new WaitForSeconds(_typingDelay);
 		}
 	}
 
@@ -78,6 +94,8 @@ public class DialogueManager : MonoBehaviour
 	// Function for all procedures that occur when dialogue is stopped
 	void EndDialogue()
 	{
+		_inDialogue = false;
+
 		SetVisibility(false);
 	}
 }
