@@ -8,4 +8,6 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public int coin_counter;
+
+    public int total_coins;
 }
