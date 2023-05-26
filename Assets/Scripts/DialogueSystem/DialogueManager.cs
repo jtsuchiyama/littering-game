@@ -108,4 +108,9 @@ public class DialogueManager : MonoBehaviour
 
 		SetVisibility(false);
 	}
+
+	// Returns the _sentences queue
+	public Queue<string> GetSentences() {
+		return _sentences;
+	}
 }

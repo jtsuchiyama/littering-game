@@ -30,4 +30,17 @@ public class DialogueTest
 
         Assert.AreEqual(expected: 0, actual: gameObject.sentences.Count);
     }
+
+    [UnityTest]
+    // Tests that the dialogue manager starts with no lines
+    public IEnumerator ManagerStartingValueTest()
+    {
+        // Instantiate test objects
+        var gameObject = new GameObject();
+        var dialogueManager = gameObject.AddComponent<DialogueManager>();
+
+        yield return null;
+
+        Assert.AreEqual(expected: 0, actual: dialogueManager.GetSentences().Count);
+    }
 }
