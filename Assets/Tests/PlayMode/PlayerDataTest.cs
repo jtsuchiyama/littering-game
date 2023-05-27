@@ -17,4 +17,16 @@ public class PlayerDataTest
 
         Assert.AreEqual(expected: 0, actual: gameObject.coin_counter);
     }
+
+    [UnityTest]
+    // Tests that the death counter starts at 0
+    public IEnumerator DeathCounterStartingValueTest()
+    {
+        // Instantiate test objects
+        var gameObject = ScriptableObject.CreateInstance<PlayerData>();
+
+        yield return null;
+
+        Assert.AreEqual(expected: 0, actual: gameObject.death_counter);
+    }
 }

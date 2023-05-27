@@ -10,6 +10,10 @@ public class Exit : MonoBehaviour
     {
         // Check for player collision
         if (col.gameObject.GetComponent<PlayerMovement>())
-            SceneManager.LoadScene("Conclusion");
+            LoadConclusion();
+    }
+
+    public void LoadConclusion() {
+        SceneManager.LoadScene("Conclusion");
     }
 }
