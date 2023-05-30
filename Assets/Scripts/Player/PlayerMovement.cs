@@ -8,10 +8,10 @@ public class PlayerMovement : MonoBehaviour
 	private Rigidbody2D _rb;
 
 	// Player orientation boolean
-	private bool _isFacingRight;
+	public bool _isFacingRight;
 
 	// Player grounded boolean; ensures the player cannot jump if they are not grounded
-	private bool _isGrounded;
+	public bool _isGrounded;
 
 	// Ground check variables
 	[SerializeField] private Transform _groundCheck;
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
 	// Boolean to check if the player is allowed to move
 	public bool CanPlayerMove;
+	//public bool MovingRight;
 
     private void Start()
     {
@@ -32,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Handle all movement in FixedUpdate
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
 		if (CanPlayerMove) {
 			// Check if the player is grounded
@@ -46,9 +47,10 @@ public class PlayerMovement : MonoBehaviour
 			Move(horizontalDirection, verticalDirection);
 		}
     }
+	
 
 	// Move the player
-	private void Move(float horizontalDirection, float verticalDirection) {
+	public void Move(float horizontalDirection, float verticalDirection) {
 		// Mid-air horizontal control multiplier
 		float mid_air_multiplier = 1;
 		if (!_isGrounded)
@@ -71,14 +73,40 @@ public class PlayerMovement : MonoBehaviour
 		if (horizontalDirection > 0 && !_isFacingRight)
 		{
 			Flip();
+			//MovingRight = true;
 		}
 
 		// Otherwise if the input is moving the player left and the player is facing right, then correct the character orientation
 		else if (horizontalDirection < 0 && _isFacingRight)
 		{
 			Flip();
+			//MovingRight = false;
 		}
 	}
+	
+	public bool MovingRight()
+	{
+		return _rb.velocity.x > 0;
+	}
+	public bool MovingLeft()
+	{
+		return _rb.velocity.x < 0;
+	}
+	public bool MovingUp()
+	{
+		return _rb.velocity.y > 0;
+	}
+	
+	public bool NotMovingDown()
+	{
+		return _rb.velocity.y == 0;
+	}
+	
+	public void SetGrounded(bool groundBool)
+	{
+		_isGrounded = groundBool;
+	}
+	
 
 	// Flips the player sprite
 	private void Flip()
@@ -93,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	// Checks if the player is grounded and updates the _isGrounded boolean appropriately
-	private void GroundedCheck() {
+	public void GroundedCheck() {
 		_isGrounded = false;
 
 		// Check if the player is touching the ground
