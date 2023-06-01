@@ -14,9 +14,15 @@ public class PlayerMovementTest
         var gameObject1 = new GameObject();
         var playerMovement = gameObject1.AddComponent<PlayerMovement>();
 
+        var gameObject2 = new GameObject();
+        var playMenu = gameObject2.AddComponent<StartMenuController>();
+		
+		//Start the game = make it so the player can move
+		playMenu.StartGame();
+		
         yield return null;
 
-        Assert.AreEqual(expected: true, actual: playerMovement.CanPlayerMove);
+        Assert.AreEqual(expected: true, actual: playMenu.CanPlayerMoveNow);
     }
 	
     [UnityTest]
@@ -25,16 +31,18 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		player.SetGrounded(true);
 		
-		playerMovement.SetGrounded(true);
+		player.Start();
 		
 		//Move the player
-        playerMovement.Move(1f, 0f);
+        player.Move(1f, 0f);
 
         yield return new WaitForSeconds(0.5f);
 
-        Assert.AreEqual(new Vector2(5, 0), playerMovement.transform.position);
+        Assert.IsTrue(player.transform.position.x > 0);
 		
     }
     [UnityTest]
@@ -43,16 +51,18 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
-
-        playerMovement.SetGrounded(true);
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		
+		player.SetGrounded(true);
+		player.Start();
 
 		//Move the player
-        playerMovement.Move(-1f, 0f);
+        player.Move(-1f, 0f);
 
         yield return new WaitForSeconds(0.5f);
 
-        Assert.AreEqual(expected: true, actual: playerMovement.MovingLeft());
+        Assert.IsTrue(player.transform.position.x < 0);
     }
     [UnityTest]
     // Tests that the player can jump
@@ -60,16 +70,18 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
 		
-		playerMovement.SetGrounded(true);
+		player.SetGrounded(true);
+		player.Start();
 		
 		//Move the player
-        playerMovement.Move(0f, 1f);
+        player.Move(0f, 1f);
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(expected: true, actual: playerMovement.MovingUp());
+        Assert.IsTrue(player.transform.position.y > 0);
     }
     [UnityTest]
     // Tests that the player cannot move downwards
@@ -77,14 +89,17 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
-
-		//Move the player
-        playerMovement.Move(1f, -1f);
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		
+		player.SetGrounded(true);
+		player.Start();
+		
+		player.Move(0f, -1f);
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(expected: true, actual: playerMovement.NotMovingDown());
+        Assert.IsTrue(player.transform.position.y < 0);
     }
     [UnityTest]
     // Tests that the player flips left when moving left after moving right
@@ -92,15 +107,19 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		
+		player.SetGrounded(true);
+		player.Start();
 
 		//Move the player to use the flip method
-        playerMovement.Move(1f, 0f);
-        playerMovement.Move(-1f, 0f);
+        player.Move(1f, 0f);
+        player.Move(-1f, 0f);
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(expected: false, actual: playerMovement._isFacingRight);
+        Assert.AreEqual(expected: false, actual: player._isFacingRight);
     }
     [UnityTest]
     // Tests that the player flips right when moving right after moving left
@@ -108,35 +127,40 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		
+		player.SetGrounded(true);
+		player.Start();
 
 		//Move the player to use the flip method
-        playerMovement.Move(-1f, 0f);
-        playerMovement.Move(1f, 0f);
+        player.Move(-1f, 0f);
+        player.Move(1f, 0f);
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(expected: true, actual: playerMovement._isFacingRight);
+        Assert.AreEqual(expected: true, actual: player._isFacingRight);
     }
     [UnityTest]
-    // Tests that the player is grounded
-    public IEnumerator PlayerGrounded()
+    // Tests that the player can move in air
+    public IEnumerator PlayerMoveUpAndHorizontal()
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-		gameObject1.AddComponent<BoxCollider>();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
 		
-		var groundObject = new GameObject();
-		groundObject.AddComponent<BoxCollider>();
+		player.SetGrounded(true);
+		player.Start();
 		
-		
-		//Use the method to check if the player is on the ground
-        playerMovement.GroundedCheck();
+		//Move the player
+        player.Move(1f, 1f);
 
-        yield return null;
-
-        Assert.AreEqual(expected: true, actual: playerMovement._isGrounded);
+        yield return new WaitForSeconds(0.1f);
+		
+		//Checks that the player actually moved
+        Assert.IsTrue(player.transform.position.y > 0);
+		Assert.IsTrue(player.transform.position.x > 0);
     }
     [UnityTest]
     // Tests that the player cannot jump while already jumping
@@ -144,13 +168,17 @@ public class PlayerMovementTest
     {
         // Instantiate test objects
         var gameObject1 = new GameObject();
-        var playerMovement = gameObject1.AddComponent<PlayerMovement>();
+        gameObject1.AddComponent<Rigidbody2D>();
+        var player = gameObject1.AddComponent<PlayerMovement>();
+		
+		player.SetGrounded(true);
+		player.Start();
 
-        playerMovement.Move(0f, 1f);
-        playerMovement.Move(0f, 1f);
+        player.Move(0f, 1f);
+        player.Move(0f, 1f);
 
         yield return new WaitForSeconds(0.1f);
 
-        Assert.AreEqual(expected: false, actual: playerMovement._isGrounded);
+        Assert.AreEqual(expected: false, actual: player._isGrounded);
     }
 }

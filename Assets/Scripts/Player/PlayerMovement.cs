@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 	// For reference
-	private Rigidbody2D _rb;
+	public Rigidbody2D _rb;
 
 	// Player orientation boolean
 	public bool _isFacingRight;
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool CanPlayerMove;
 	//public bool MovingRight;
 
-    private void Start()
+    public void Start()
     {
 		_rb = GetComponent<Rigidbody2D>();
     }
@@ -84,23 +84,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 	
-	public bool MovingRight()
-	{
-		return _rb.velocity.x > 0;
-	}
-	public bool MovingLeft()
-	{
-		return _rb.velocity.x < 0;
-	}
-	public bool MovingUp()
-	{
-		return _rb.velocity.y > 0;
-	}
-	
-	public bool NotMovingDown()
-	{
-		return _rb.velocity.y == 0;
-	}
 	
 	public void SetGrounded(bool groundBool)
 	{
