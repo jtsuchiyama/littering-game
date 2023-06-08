@@ -32,10 +32,6 @@ public class DialogueManager : MonoBehaviour
 
 		// Instantiate the queue
 		_sentences = new Queue<string>();
-
-		// Run dialogue immediately at scene start
-		if(startDialogue)
-			StartDialogue(startDialogue);
     }
 
 

@@ -14,6 +14,10 @@ public class Exit : MonoBehaviour
     }
 
     public void LoadConclusion() {
+        // Update player's coin counter once they finished the game
+        FindObjectOfType<CoinManager>().UpdateCounter();
+
+        // Load new scene
         SceneManager.LoadScene("Conclusion");
     }
 }
