@@ -5,6 +5,9 @@ using UnityEngine;
 public class StartMenuController : MonoBehaviour
 {
 	public bool CanPlayerMoveNow;
+
+	public PlayerData playerData;
+
 	private void Start() {
 		// Player cannot move while start menu is open
 		FindObjectOfType<PlayerMovement>().CanPlayerMove = false;
@@ -21,8 +24,10 @@ public class StartMenuController : MonoBehaviour
 	public void StartGame() {
 		// Allow player to move
 		FindObjectOfType<PlayerMovement>().CanPlayerMove = true;
-		
 		CanPlayerMoveNow = FindObjectOfType<PlayerMovement>().CanPlayerMove;
+
+		// Reset the death counter
+		playerData.death_counter = 0;
 
 		// Hide the start menu
 		SetVisibility(false);

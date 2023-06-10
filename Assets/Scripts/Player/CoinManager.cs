@@ -29,6 +29,9 @@ public class CoinManager : MonoBehaviour
             // Increment the coin counter
             IncrementCounter();
 
+            // Call update function for the pollution filter
+            FindObjectOfType<PollutionFilterController>().UpdateFilter(coin_counter);
+
             // Destroy the coin
             Destroy(col.gameObject);
         }
