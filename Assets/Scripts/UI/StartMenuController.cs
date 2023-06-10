@@ -8,6 +8,8 @@ public class StartMenuController : MonoBehaviour
 
 	public PlayerData playerData;
 
+	public Dialogue dialogue;
+
 	private void Start() {
 		// Player cannot move while start menu is open
 		FindObjectOfType<PlayerMovement>().CanPlayerMove = false;
@@ -26,10 +28,13 @@ public class StartMenuController : MonoBehaviour
 		FindObjectOfType<PlayerMovement>().CanPlayerMove = true;
 		CanPlayerMoveNow = FindObjectOfType<PlayerMovement>().CanPlayerMove;
 
-		// Reset the death counter
-		playerData.death_counter = 0;
+		// Reset coin counter
+		playerData.coin_counter = 0;
 
 		// Hide the start menu
 		SetVisibility(false);
+
+		// Start the introduction dialogue
+		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
 	}
 }

@@ -14,7 +14,7 @@ public class DialogueManager : MonoBehaviour
 	public Text dialogueText;
 
 	// Typing delay for text box
-	private float _typingDelay = 0.02f;
+	private float _typingDelay = 0.025f;
 
 	// Boolean to check if in dialogue or not
 	private bool _inDialogue;
@@ -45,6 +45,9 @@ public class DialogueManager : MonoBehaviour
 	// Loads the dialogue into the queue and starts the dialogue
 	public void StartDialogue(Dialogue dialogue)
 	{
+		// Prevent player from moving during dialogue
+		FindObjectOfType<PlayerMovement>().CanPlayerMove = false;
+
 		_inDialogue = true;
 
 		SetVisibility(true);
@@ -100,6 +103,9 @@ public class DialogueManager : MonoBehaviour
 	// Function for all procedures that occur when dialogue is stopped
 	void EndDialogue()
 	{
+		// Allow player to move after dialogue
+		FindObjectOfType<PlayerMovement>().CanPlayerMove = true;
+
 		_inDialogue = false;
 
 		SetVisibility(false);
