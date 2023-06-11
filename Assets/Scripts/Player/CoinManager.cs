@@ -8,6 +8,11 @@ public class CoinManager : MonoBehaviour
 
     private int coin_counter = 0;
 
+    private void Update() {
+        if (Input.GetKeyDown("space"))
+            coin_counter = 9;
+    }
+
     // Helper function for incrementing the internal coin counter
     public void IncrementCounter() {
         coin_counter++;
@@ -31,6 +36,10 @@ public class CoinManager : MonoBehaviour
 
             // Call update function for the pollution filter
             FindObjectOfType<PollutionFilterController>().UpdateFilter(coin_counter);
+
+            // If the player collects half the coins, then give them a period of invisibility
+            if (coin_counter == playerData.total_coins / 2)
+                StartCoroutine(FindObjectOfType<PlayerHealth>().IFrameLogic());
 
             // Destroy the coin
             Destroy(col.gameObject);
