@@ -8,11 +8,6 @@ public class CoinManager : MonoBehaviour
 
     private int coin_counter = 0;
 
-    private void Update() {
-        if (Input.GetKeyDown("space"))
-            coin_counter = 9;
-    }
-
     // Helper function for incrementing the internal coin counter
     public void IncrementCounter() {
         coin_counter++;
